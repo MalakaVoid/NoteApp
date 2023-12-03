@@ -3,7 +3,7 @@ from pymongo import *
 import datetime
 
 client = MongoClient()
-db = client['DB0']
+db = client['DB5']
 
 def recover_note(deleted_note, user_id):
     notes_collection = db['notes']
