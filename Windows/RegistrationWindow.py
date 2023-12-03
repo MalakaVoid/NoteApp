@@ -28,6 +28,11 @@ class RegistrationWindow(QMainWindow):
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setMaximumSize(QSize(400, 70))
 
+        self.label_err = QLabel()
+        self.label_err.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.label_err.setAlignment(Qt.AlignCenter)
+        self.label_err.setMaximumSize(QSize(400, 30))
+
         self.username_input = QLineEdit()
         self.username_input.setPlaceholderText('Enter your username')
 
@@ -50,6 +55,7 @@ class RegistrationWindow(QMainWindow):
         self.login_dir_button.clicked.connect(self.open_auth_widnow)
 
         layout.addWidget(self.label)
+        layout.addWidget(self.label_err)
 
         layout.addWidget(self.name_input)
         layout.addWidget(self.username_input)
@@ -71,15 +77,18 @@ class RegistrationWindow(QMainWindow):
         password_2 = self.password_input_2.text()
 
         if password != password_2:
+            self.label_err.setText("Passwords arent the same")
             print("Password arent the same")
             return
 
         user_id = registrate_user(username, name, password)
 
         if user_id == 500:
+            self.label_err.setText("Username already taken")
             print("Username already taken")
             return
         if user_id == 404:
+            self.label_err.setText("Something went wrong")
             print("Something went wrong")
             return
 

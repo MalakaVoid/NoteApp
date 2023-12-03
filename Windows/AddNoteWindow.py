@@ -27,6 +27,15 @@ class AddNoteWindow(QMainWindow):
 
         self.label = QLabel(self)
         self.label.setText('Add new note')
+        self.label.setStyleSheet("font-size: 24px; font-weight: bold;")
+        self.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.label_err = QLabel()
+        self.label_err = QLabel()
+        self.label_err.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.label_err.setAlignment(Qt.AlignCenter)
+        self.label_err.setMaximumSize(QSize(450, 30))
 
         self.title_input = QLineEdit()
         self.title_input.setPlaceholderText('Enter a title')
@@ -38,6 +47,7 @@ class AddNoteWindow(QMainWindow):
         self.add_button.clicked.connect(self.add_new_note)
 
         layout.addWidget(self.label)
+        layout.addWidget(self.label_err)
 
         layout.addWidget(self.title_input)
         layout.addWidget(self.text_input)
@@ -55,13 +65,14 @@ class AddNoteWindow(QMainWindow):
         title = self.title_input.text()
         text = self.text_input.toPlainText()
         if title == "" or text == "":
+            self.label_err.setText("Enter something")
             return
         code = add_note(self.user_id, title, text)
         if code == 404:
+            self.label_err.setText("Something went wrong")
             print("Something went wrong")
 
         self.note_window.creation()
-        self.note_window.show()
         self.close()
 
     def reset_fields(self):

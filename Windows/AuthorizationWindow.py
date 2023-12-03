@@ -19,6 +19,10 @@ class AuthorizationWindow(QMainWindow):
         self.setMaximumSize(QSize(400, 300))
         self.setMinimumSize(QSize(400, 300))
 
+        self.label_err = QLabel()
+        self.label_err.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.label_err.setAlignment(Qt.AlignCenter)
+
         self.label = QLabel()
         self.label.setText('AUTHORIZATION')
         self.label.setStyleSheet("font-size: 24px; font-weight: bold;")
@@ -41,6 +45,7 @@ class AuthorizationWindow(QMainWindow):
         self.login_dir_button.clicked.connect(self.open_registration_page)
 
         layout.addWidget(self.label)
+        layout.addWidget(self.label_err)
 
         layout.addWidget(self.username_input)
         layout.addWidget(self.password_input)
@@ -60,9 +65,11 @@ class AuthorizationWindow(QMainWindow):
         user_id = authorize_user(username, password)
 
         if user_id == 404:
+            self.label_err.setText("User not founded")
             print("user not founded")
             return
         if user_id == 500:
+            self.label_err.setText("Wrong password")
             print("Wrong password")
             return
         self.note_window = NotesWindow(user_id)
